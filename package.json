@@ -2,7 +2,13 @@
   "name": "monlowdb",
   "version": "0.0.1",
   "description": "The unrecognized son of LowDB and MongoDB",
-  "private": false,
+  "main": "./lib/index.js",
+  "homepage": "http://github.com/ava-ia",
+  "author": {
+    "name": "Javi Jimenez Villar",
+    "email": "hello@soyjavi.com",
+    "url": "http://soyjavi.com/"
+  },
   "repository": {
     "url": "https://github.com/soyjavi/monlowdb",
     "type": "git"
@@ -10,6 +16,7 @@
   "scripts": {
     "start": "node --harmony test/index.js",
     "dev": "nodemon ./test/index.js --watch *.js --exec babel-node",
+    "build": "babel src --out-dir lib",
     "lint:js": "eslint --ignore-path .gitignore ./**/*.js"
   },
   "devDependencies": {
