@@ -1,0 +1,33 @@
+{
+  "name": "monlowdb",
+  "version": "0.0.1",
+  "description": "The unrecognized son of LowDB and MongoDB",
+  "private": false,
+  "repository": {
+    "url": "https://github.com/soyjavi/monlowdb",
+    "type": "git"
+  },
+  "scripts": {
+    "start": "node --harmony test/index.js",
+    "dev": "nodemon ./test/index.js --watch *.js --exec babel-node",
+    "lint:js": "eslint --ignore-path .gitignore ./**/*.js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "babel-register": "^6.24.1",
+    "lowdb": "^1.0.0",
+    "shortid": "^2.2.8"
+  }
+}
