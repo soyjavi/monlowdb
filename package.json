@@ -1,6 +1,6 @@
 {
   "name": "monlowdb",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The unrecognized son of LowDB and MongoDB",
   "main": "./lib/index.js",
   "homepage": "http://github.com/ava-ia",

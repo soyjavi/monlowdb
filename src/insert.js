@@ -3,11 +3,11 @@ import { consolidate } from './modules';
 
 export default state => ({
 
-  insert(data = {}) {
+  insert(data = {}, crypto = state.crypto) {
     const { db, key, schema } = state;
     const store = db.get(key);
     const id = uuid();
-    const props = consolidate(schema, data);
+    const props = consolidate(schema, data, crypto);
 
     store.push({ ...schema, ...props, createdAt: new Date(), id }).write();
 

@@ -5,8 +5,8 @@ import update from './update';
 import remove from './remove';
 import reset from './reset';
 
-export default ({ file = 'db', key = 'model', schema = {} } = {}) => {
-  const state = { file, key, schema };
+export default ({ crypto, file = 'db', key = 'model', schema = {} } = {}) => {
+  const state = { crypto, file, key, schema };
 
   return Object.assign(
     {},
