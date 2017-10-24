@@ -1,29 +1,32 @@
 import uuid from 'uuid';
-import { consolidate } from './modules';
+import { encrypt, decrypt, parse } from './modules';
 
 export default state => ({
 
-  update({ query, data, upsert = false }) {
+  update({ query = {}, data = {}, upsert = false, crypto = state.crypto }) {
     const { db, key, schema } = state;
     const store = db.get(key);
-    const item = store.find(query).value();
-    let id;
-
-    const props = consolidate(schema, data);
+    const queryProps = parse(schema, query, crypto, encrypt);
+    let item = store.find(queryProps).value();
+    const props = parse(schema, data, crypto, encrypt);
 
     if (item) {
-      store
-        .find(query)
-        .assign({ ...schema, ...item, updatedAt: new Date(), ...props })
+      item = store
+        .find({ id: item.id })
+        .assign({ ...props, updatedAt: new Date() })
         .write();
     } else if ((!item || !item.id) && props && upsert) {
-      id = uuid();
-      store
-        .push({ ...schema, id, createdAt: new Date(), ...query, ...props })
+      item = store
+        .push({
+          ...schema,
+          ...queryProps,
+          ...props,
+          createdAt: new Date(),
+          id: uuid(),
+        })
         .write();
     }
 
-    return (id || item) ? store.find({ id: id || item.id }).value() : undefined;
+    return parse(schema, item, crypto, decrypt);
   },
-
 });

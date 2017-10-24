@@ -1,17 +1,15 @@
 import uuid from 'uuid';
-import { consolidate } from './modules';
+import { decrypt, encrypt, parse } from './modules';
 
 export default state => ({
 
   insert(data = {}, crypto = state.crypto) {
     const { db, key, schema } = state;
     const store = db.get(key);
-    const id = uuid();
-    const props = consolidate(schema, data, crypto);
+    const props = parse(schema, data, crypto, encrypt);
+    const item = store.push({ ...schema, ...props, createdAt: new Date(), id: uuid() }).write()[0];
 
-    store.push({ ...schema, ...props, createdAt: new Date(), id }).write();
-
-    return store.find({ id }).value();
+    return parse(schema, item, crypto, decrypt);
   },
 
 });
