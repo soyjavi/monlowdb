@@ -6,8 +6,10 @@ export default state => ({
   update({ query = {}, data = {}, upsert = false, crypto = state.crypto }) {
     const { db, key, schema } = state;
     const store = db.get(key);
-    const queryProps = parse(schema, query, crypto, encrypt);
-    let item = store.find(queryProps).value();
+    let queryProps;
+
+    if (typeof query === 'object') queryProps = parse(schema, query, crypto, encrypt);
+    let item = store.find(queryProps || query).value();
     const props = parse(schema, data, crypto, encrypt);
 
     if (item) {

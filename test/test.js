@@ -2,6 +2,7 @@ import MonlowDB from '../src';
 import { encrypt, parse } from '../src/modules';
 
 const crypto = 'hell0w0rld';
+const cryptoRow = 'hola';
 const User = new MonlowDB({
   file: 'db',
   key: 'users',
@@ -22,12 +23,9 @@ console.log('reset', User.reset());
 // -- Create a user
 const userOne = User.insert({ username: 'soyjavi', lastName: 'Jimenez Villar', nombre: 'Francisco ja' });
 console.log('User', userOne);
-
 const userTwo = User.insert({ username: 'yam', lastName: 'Kaewnoi' });
 console.log('User', userTwo);
-
-User.insert({ username: 'mallu', firstName: 'Mallukitxu' });
-
+User.insert({ username: 'mallu' }, cryptoRow);
 
 // -- Update (or upsert) by query object
 const userUpdated = User.update({
@@ -38,13 +36,17 @@ const userUpdated = User.update({
 console.log('userUpdated', userUpdated);
 
 // // -- Update by query function
-// const userUpdatedFn = User.update({
-//   query: ({ username }) => username === 'mallu',
-//   data: { firstName: 'Mallukitxu' },
-//   upsert: true,
-// });
-// console.log('userUpdatedFn', userUpdated);
-//
+const userUpdatedFn = User.update({
+  query: ({ username }) => {
+    console.log(' -', username);
+    return (username === encrypt('mallu', cryptoRow));
+  },
+  data: { firstName: 'Mallukitxu' },
+  upsert: true,
+  crypto: cryptoRow,
+});
+console.log('userUpdatedFn', userUpdatedFn);
+
 // // -- Find elements
 let users = User.find({
   query: { firstName: 'Javi' },
@@ -73,13 +75,11 @@ users = User.find({
 console.log('find_4', users);
 
 // -- Remove elements by a query object
-users = User.remove({
-  query: { username: 'yam' },
-});
-console.log('remove_query_obj', users);
-
-// -- Remove elements by a query function
-users = User.remove({
-  query: ({ firstName }) => firstName === encrypt('Mallukitxu', crypto),
-});
-console.log('remove_query_fn', users);
+// users = User.remove({ query: { username: 'yam' } });
+// console.log('remove_query_obj', users);
+//
+// // -- Remove elements by a query function
+// users = User.remove({
+//   query: ({ firstName }) => firstName === encrypt('Mallukitxu', cryptoRow),
+// });
+// console.log('remove_query_fn', users);
